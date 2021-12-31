@@ -1,0 +1,60 @@
+Git을 설치하면 gitglossary라는 설명서가 함께 설치됨. man gitglossary로 설명 참조.
+
+Branch
+  개발의 한 갈래. main브랜치로 기존 기능 유지/보수, 브랜치 추가로 시험용코드 등을 추가할 수 있음.
+  코드 수정 후 Commit하면 사용중인 브랜치의 제일 앞쪽으로 들어감. 이것을 Branch Head라고 함. 개발을 함에 따라 브랜치 헤드는 앞으로 계속 나아감. 이렇게 브랜치 헤드가 이동하는 방향을 Forward라고 함. 
+  
+Pull
+  브랜치를 pull하는 것은 브랜치의 내용을 fetch -> merge 하는 과정을 말함.
+
+Push 
+  로컬의 수정 내용을 remote rep에 저장하는 것을 말함. 
+  우선 remote rep에서 head가 가리키는 것을 검사 -> local이 remote의 내용을 이미 포함한 직접적인 조상인지를 검사 -> 검사 통과되면 현재 local의 변경사항과 새로 생성된 object를 remote rep로 전달함. 
+  만약 local이 remote와 직접적인 조상 관계가 없다면 push는 실패함. 이 경우 remote rep를 pull한 후 다시 push하면 성공.
+    
+Commit
+  커밋은 깃에 데이터가 저장되온 히스토리의 한 지점을 말함. ex) 오늘 내가 한 커밋에는~~~.
+  하나의 프로젝트의 전체 히스토리는 각 개별 커밋들이 서로 연결되는 과정으로 형성됨. 다른 버전 관리 시스템에서는 revision, version라고 명명하기도 함. 
+  또한 커밋을 한 Object 자체를 말하기도 함. (소스코드 등)
+  
+Fetch
+  Remote Repository에서 브랜치의 Head ref를 가져오는 것을 말함. 
+  로컬 DB에 없는 어떤 Object가 어떤 것인지 확인하고 그 Object를 로컬로 가져옴.
+
+Checkout
+  작업중인 워킹 트리의 일부 또는 전부를 업데이트하는 것을 말함. 
+  업데이트 할 때 데이터는 깃 로컬 DB로부터 트리(folder)나 블롭(file)을 불러오게 되는데, 현재 사용중인 브랜치에서 파일이나 폴더의 일부 또는 전체 내용을 DB에 있는 내용으로 업데이트할 수 있음. 
+  이 때, 수정중이던 내용이 모두 삭제되니 주의할 것.
+  또 깃 DB로부터 새로운 브랜치를 불러올 수도 있다. 이 때는 현재 브랜치의 내용이 새로운 브랜치의 내용으로 update가 되는 것.
+  
+  동사로 사용될 경우 "현재 프로젝트의 상태를 snapshot으로 저장하다". 새로 커밋을 한다는 것은 현재 상태를 나타내는 index를 대표하는 커밋 생성을 뜻함. 그리고 HEAD에게 그 새로운 커밋을 가리키게 만듦.
+  
+Hash 
+  깃에서는 Object 이름으로 hash를 사용함. git log 명령어로 커밋 history를 볼 수 있음. 
+
+# commit f881ecb53d9ac68631ed9aa97421a8ef192009e5 (HEAD -> master, origin/master)
+# Author: Ken You <commit@example.com>
+# Date:   Wed Nov 14 20:54:57 2018 +1100
+#
+#     add favicon
+
+첫 줄의 commit 옆의 문자열이 커밋 object의 해쉬이면서 커밋의 이름이 됨.
+
+head
+  브랜치의 제일 앞에 있는 커밋을 가리키는 ref를 부르는 이름. 헤드는 각 repo의 .git/refs/heads/ 에 저장되어 있음.
+
+HEAD
+  현재 브랜치를 말함. working tree는 HEAD에 의해서 지정되는 object tree의 상태에서 만들어짐. 
+  rep에는 여러 개의 브랜치가 있지만 그 중에서 현재 checkout된 브랜치의 head를 가리킴. 
+  하지만 현재 working tree가 특정 커밋을 바로 checkout한 상태라면 HEAD는 커밋 그 자체를 가리킴.
+  
+Index
+  변경 내용이 포함된 파일들의 모음. 현재 working tree의 저장된 버전이며 여러 버전의 내용을 포함할 수 있음.
+  이 내용은 merge를 할 때 사용하게 됨.
+
+Cache
+  현재는 사용하지 않음. Index로 대체됨.
+
+Rebase
+  현재 브랜치를 처음 생성하면 이 브랜치는 어느 특정 커밋(base)에서 시작된 것. 
+  rebase는 이 베이스를 다른 브랜치의 head로 이동하는 것이다. 이동을 하게되면 자동으로 현재 브랜치에서 변경된 내역을 새로 변경된 베이스에서 시작된 것으로 커밋을 생성해 줌.
