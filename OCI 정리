@@ -14,3 +14,9 @@ sudo nano /etc/nginx/sites-avalbled -> server_name 설정
 sudo iptables -I INPUT 5 -i ens3 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT #open할 포트 모두 열어주기
 sudo certbot --nginx -d 서버주소
 
+[방화벽 설정 저장] 
+#ubuntu 20.04에서는 iptable 변경 후 재부팅 시 보안정책이 적용되지 않음. iptables-persistent툴로 보안설정을 저장하기.
+sudo apt-get install iptables-persistent #기본설치 되어있음.
+sudo netfilter-persistent save
+sudo netfilter-persistent start
+
