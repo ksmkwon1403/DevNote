@@ -1,0 +1,16 @@
+Ubuntu 배포판 설치
+서브넷 -> ipv4 -> ip고정으로 변경
+
+콘솔 접속
+
+[sshd 패스워드 로그인 허용]
+sudo nano /etc/sshd/sshd_conf -> passwordauth YES
+sudo passwd root, ubuntu 암호 변경
+
+[nginx 설정]
+sudo apt-get update, upgrade
+sudo apt install nginx certbot python3-certbot-nginx
+sudo nano /etc/nginx/sites-avalbled -> server_name 설정
+sudo iptables -I INPUT 5 -i ens3 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT #open할 포트 모두 열어주기
+sudo certbot --nginx -d 서버주소
+
