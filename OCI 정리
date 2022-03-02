@@ -34,6 +34,22 @@ sudo service fail2ban start
 sudo fallocate -l 2G /swapfile -> 2GB의 파일 생성
 sudo chmod 600 /swapfile -> 파일에 600의 권한 설정
 sudo mkswap /swapfile -> 파일에 스왑설정 적용
+sudo swapon /swapfile -> 스왑 켜기
+sudo swapon --show -> 스왑상태 확인
+free -h -> 메모리 사용량 확인
+sudo nano /etc/fstab 
+  제일 밑에 /swapfile swap swap defaults 0 0 추가 -> 재부팅시에도 작동하도록 설정
 
+[SWAP 공간 삭제하기]
+sudo swapoff -v /swapfile
+sudo rm /swapfile
+sudo nano /etc/fstab 에서 생성한 부분 삭제하기
 
+[시간/지역 설정하기]
+sudo timedatectl set-timezone Asia/Seoul -> 시간 설정
+timedatectl -> 잘 바뀌었는지 확인
+// sudo dpkg-reconfigure tzdata -> 구버전 사용시
+sudo dpkg-reconfigure locales -> 지역 설정
+  All locales
+  en_US.UTF-8
 
