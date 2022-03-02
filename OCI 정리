@@ -15,9 +15,25 @@ sudo nano /etc/nginx/sites-avalbled -> server_name 설정
 sudo iptables -I INPUT 5 -i ens3 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT #open할 포트 모두 열어주기
 sudo certbot --nginx -d 서버주소
 
-[방화벽 설정 저장] 
+[방화벽 설정]
+sudo ufw app list -> Rule에 추가 가능한 app 표시
+sudo ufw allow|deny 'APP NAME' -> Rule에 app 추가|제거
+sudo ufw enable|disable -> UFW 활성화
+/*
 #ubuntu 20.04에서는 iptable 변경 후 재부팅 시 보안정책이 적용되지 않음. iptables-persistent툴로 보안설정을 저장하기.
 sudo apt-get install iptables-persistent #기본설치 되어있음.
 sudo netfilter-persistent save
 sudo netfilter-persistent start
+*/
+
+[Fail2ban 설치]
+sudo apt install fail2ban
+sudo service fail2ban start
+
+[SWAP 공간 생성하기]
+sudo fallocate -l 2G /swapfile -> 2GB의 파일 생성
+sudo chmod 600 /swapfile -> 파일에 600의 권한 설정
+sudo mkswap /swapfile -> 파일에 스왑설정 적용
+
+
 
