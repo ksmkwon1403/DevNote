@@ -53,3 +53,7 @@ sudo dpkg-reconfigure locales -> 지역 설정
   All locales
   en_US.UTF-8
 
+[MariaDB 설치]
+sudo apt install mariadb-server mariadb-client
+sudo mysql_secure_installation
+sudo mysql -u root -p -> db로그인
