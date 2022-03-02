@@ -6,6 +6,7 @@ Ubuntu 배포판 설치
 [sshd 패스워드 로그인 허용]
 sudo nano /etc/sshd/sshd_conf -> passwordauth YES
 sudo passwd root, ubuntu 암호 변경
+sudo service sshd restart
 
 [nginx 설정]
 sudo apt-get update, upgrade
