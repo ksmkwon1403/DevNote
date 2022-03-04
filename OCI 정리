@@ -15,6 +15,22 @@ sudo nano /etc/nginx/sites-avalbled -> server_name 설정
 sudo iptables -I INPUT 5 -i ens3 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT #open할 포트 모두 열어주기
 sudo certbot --nginx -d 서버주소
 
+[crontab에 인증서 자동갱신 추가하기]
+sudo nano /bin/letsencrypt
+/* 내용 추가
+!/bin/sh
+/etc/init.d/nginx stop
+/usr/local/bin/certbot renew> /var/log/letsencrypt/le-renew.log
+fuser -k 80/tcp
+/etc/init.d/nginx start
+*/
+sudo chmod -x /bin/letsencrypt.sh
+sudo crontab -e
+/* 내용추가
+10 5 * * 1 /usr/bin/letsencrypt.sh //매주 월요일 05시 10분에 갱신작업 실행
+*/
+참고로 순서대로 분 시 일 월 요일 명령 순서대로 기재하면 됨. 요일은 0,7=일 1~6=월~토. *은 매*마다 실행한다는 의미.
+
 [방화벽 설정]
 sudo ufw app list -> Rule에 추가 가능한 app 표시
 sudo ufw allow|deny 'APP NAME' -> Rule에 app 추가|제거
