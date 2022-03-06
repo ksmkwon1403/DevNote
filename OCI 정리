@@ -4,7 +4,7 @@ Ubuntu 배포판 설치
 콘솔 접속
 
 [sshd 패스워드 로그인 허용]
-sudo nano /etc/sshd/sshd_conf -> passwordauth YES
+sudo nano //etc/ssh/sshd_config -> passwordauth YES
 sudo passwd root, ubuntu 암호 변경
 sudo service sshd restart
 
