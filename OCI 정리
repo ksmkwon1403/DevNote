@@ -3,19 +3,57 @@ Ubuntu 배포판 설치
 
 콘솔 접속
 
-[sshd 패스워드 로그인 허용]
+1 [sshd 패스워드 로그인 허용]
 sudo nano //etc/ssh/sshd_config -> passwordauth YES
 sudo passwd root, ubuntu 암호 변경
 sudo service sshd restart
 
-[nginx 설정]
+2 [방화벽 설정]
+sudo ufw app list -> Rule에 추가 가능한 app 표시
+sudo ufw allow|deny 'APP NAME' -> Rule에 app 추가|제거
+sudo ufw enable|disable -> UFW 활성화
+/*
+#ubuntu 20.04에서는 iptable 변경 후 재부팅 시 보안정책이 적용되지 않음. iptables-persistent툴로 보안설정을 저장하기.
+sudo apt-get install iptables-persistent #기본설치 되어있음.
+sudo netfilter-persistent save
+sudo netfilter-persistent start
+*/
+
+3 [Fail2ban 설치]
+sudo apt install fail2ban
+sudo service fail2ban start
+
+4 [SWAP 공간 생성하기]
+sudo fallocate -l 2G /swapfile -> 2GB의 파일 생성
+sudo chmod 600 /swapfile -> 파일에 600의 권한 설정
+sudo mkswap /swapfile -> 파일에 스왑설정 적용
+sudo swapon /swapfile -> 스왑 켜기
+sudo swapon --show -> 스왑상태 확인
+free -h -> 메모리 사용량 확인
+sudo nano /etc/fstab 
+  제일 밑에 /swapfile swap swap defaults 0 0 추가 -> 재부팅시에도 작동하도록 설정
+
+4.1 [SWAP 공간 삭제하기]
+sudo swapoff -v /swapfile
+sudo rm /swapfile
+sudo nano /etc/fstab 에서 생성한 부분 삭제하기
+
+5 [시간/지역 설정하기]
+sudo timedatectl set-timezone Asia/Seoul -> 시간 설정
+timedatectl -> 잘 바뀌었는지 확인
+// sudo dpkg-reconfigure tzdata -> 구버전 사용시
+sudo dpkg-reconfigure locales -> 지역 설정
+  All locales
+  en_US.UTF-8
+
+6 [nginx 설정]
 sudo apt-get update, upgrade
 sudo apt install nginx certbot python3-certbot-nginx
 sudo nano /etc/nginx/sites-avalbled -> server_name 설정
 sudo iptables -I INPUT 5 -i ens3 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT #open할 포트 모두 열어주기
 sudo certbot --nginx -d 서버주소
 
-[crontab에 인증서 자동갱신 추가하기]
+6.1 [crontab에 인증서 자동갱신 추가하기]
 sudo nano /bin/letsencrypt
 /* 내용 추가
 !/bin/sh
@@ -31,45 +69,7 @@ sudo crontab -e
 */
 참고로 순서대로 분 시 일 월 요일 명령 순서대로 기재하면 됨. 요일은 0,7=일 1~6=월~토. *은 매*마다 실행한다는 의미.
 
-[방화벽 설정]
-sudo ufw app list -> Rule에 추가 가능한 app 표시
-sudo ufw allow|deny 'APP NAME' -> Rule에 app 추가|제거
-sudo ufw enable|disable -> UFW 활성화
-/*
-#ubuntu 20.04에서는 iptable 변경 후 재부팅 시 보안정책이 적용되지 않음. iptables-persistent툴로 보안설정을 저장하기.
-sudo apt-get install iptables-persistent #기본설치 되어있음.
-sudo netfilter-persistent save
-sudo netfilter-persistent start
-*/
-
-[Fail2ban 설치]
-sudo apt install fail2ban
-sudo service fail2ban start
-
-[SWAP 공간 생성하기]
-sudo fallocate -l 2G /swapfile -> 2GB의 파일 생성
-sudo chmod 600 /swapfile -> 파일에 600의 권한 설정
-sudo mkswap /swapfile -> 파일에 스왑설정 적용
-sudo swapon /swapfile -> 스왑 켜기
-sudo swapon --show -> 스왑상태 확인
-free -h -> 메모리 사용량 확인
-sudo nano /etc/fstab 
-  제일 밑에 /swapfile swap swap defaults 0 0 추가 -> 재부팅시에도 작동하도록 설정
-
-[SWAP 공간 삭제하기]
-sudo swapoff -v /swapfile
-sudo rm /swapfile
-sudo nano /etc/fstab 에서 생성한 부분 삭제하기
-
-[시간/지역 설정하기]
-sudo timedatectl set-timezone Asia/Seoul -> 시간 설정
-timedatectl -> 잘 바뀌었는지 확인
-// sudo dpkg-reconfigure tzdata -> 구버전 사용시
-sudo dpkg-reconfigure locales -> 지역 설정
-  All locales
-  en_US.UTF-8
-
-[MariaDB 설치]
+7 [MariaDB 설치]
 sudo apt install mariadb-server mariadb-client
 sudo mysql_secure_installation
 sudo mysql -u root -p -> db로그인
