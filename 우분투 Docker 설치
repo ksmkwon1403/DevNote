@@ -31,5 +31,5 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 
 [Root 권한 없이 실행]
-sudo usermod -aG docker $USER #도커말고 다른 툴도 적용 가능
+sudo usermod -aG docker $USER #도커말고 다른 툴도 적용 가능 -a:사용자추가 -G:그룹
 logout 후 다시 login하면 적용됨.
