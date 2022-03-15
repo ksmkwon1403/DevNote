@@ -1,0 +1,5 @@
+  nload - 네트워크 트래픽 모니터
+sudo apt install nload    #설치
+nload -t 700  #700ms마다 새로고침 
+nload -m  #그래프 없이 모든 장치모니터링
+nload enp10s0  #특정 device만 모니터링
