@@ -4,9 +4,9 @@
 - Docker 호스트
 - 리버스 프록시, 토렌트 서버, RDP, 각종 툴킷 등..
 
-TrueNAS Scale for SMB, Virtualization, Docker ...
+TrueNAS Scale for SMB, KVM, Docker ...
 
-Ixsystem mini X 사양
+iXsystem mini X 사양
 16GB ECC RAM 
 4-Core 2.2GHz Intel Atom CPU 
 5x 3.5” Hot-Swap SATA Drive Bays 
@@ -16,3 +16,4 @@ Remote Management (IPMI)
 3x USB (1x USB 3.0 Rear, 2x USB 2.0 Ports Front) 
 Built-in RAID 
 Speed up SSDs for read and write caching.
+
