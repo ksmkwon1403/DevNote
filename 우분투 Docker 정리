@@ -36,3 +36,12 @@ logout 후 다시 login하면 적용됨.
 
 [도커 compose 설정값]
 포트= 호스트포트:컨테이너포트 순서로 작성
+
+[도커 container 삭제]
+docker ps -a /도커 컨테이너 확인
+docker rm [컨테이너ID] /여러개 삭제도 가능
+
+[도커 image 삭제]
+docker images //도커이미지 확인
+docker rmi [이미지 이름] 
+* docker rmi -f [이미지 이름] /컨테이너를 종료 후 컨테이너, 이미지 모두 삭제
